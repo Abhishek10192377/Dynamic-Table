@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import * as XLSX from 'xlsx';
-
+import { toast, ToastContainer } from 'react-toastify'
 import {
   Table,
   TableBody,
@@ -20,7 +20,10 @@ export default function TableData({ data, handleDelete, handleEdit }) {
 
   const exportdata = () => {
     if (!data || data.length === 0) {
-      alert('no data is avilable')
+        toast.warning('No data is available to export!', {
+        position: 'top-right',
+        autoClose: 1000,
+      })
       return
     }
     const wb = XLSX.utils.book_new();
@@ -68,6 +71,7 @@ export default function TableData({ data, handleDelete, handleEdit }) {
   }
   return (
     <>
+    <ToastContainer></ToastContainer>
       <TableContainer
         component={Paper}
         sx={{
