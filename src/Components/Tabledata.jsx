@@ -61,7 +61,7 @@ export default function TableData({ data, handleDelete, handleEdit }) {
   ///////////// pagination////////
 
   const [currentpage, setcurrentpage] = useState(1)
-  const [dataperpage, setdataperpage] = useState(5)
+  const [dataperpage, setdataperpage] = useState(10)
 
   const lastindex = currentpage * dataperpage;
   const firstindex = lastindex - dataperpage
