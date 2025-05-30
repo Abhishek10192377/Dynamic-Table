@@ -137,9 +137,9 @@ export default function TableData({ data, handleDelete, handleEdit }) {
   </Box>
 </Box>
 
-
+      <Box sx={{width:'100%', overflowX:'auto'}}>
         <Table aria-label="user data table" sx={{ minWidth: 700 }}>
-          <TableHead>
+          <TableHead sx={{overflow: 'auto'}}>
             <TableRow sx={{ backgroundColor: '#e3f2fd', textAlign: 'center' }}>
               <TableCell sx={{ fontWeight: 'bold' }}>S.no</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
@@ -182,6 +182,7 @@ export default function TableData({ data, handleDelete, handleEdit }) {
 
           </TableBody>
         </Table>
+        </Box>
       </TableContainer>
       <Box textAlign={'center'} sx={{ mt: 2 }}>
         {[...Array(Math.ceil(filteredData.length / dataperpage))].map((_, index) => {
