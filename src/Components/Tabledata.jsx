@@ -20,7 +20,7 @@ export default function TableData({ data, handleDelete, handleEdit }) {
 
   const exportdata = () => {
     if (!data || data.length === 0) {
-        toast.warning('No data is available to export!', {
+      toast.warning('No data is available to export!', {
         position: 'top-right',
         autoClose: 1000,
       })
@@ -56,22 +56,28 @@ export default function TableData({ data, handleDelete, handleEdit }) {
   };
 
   const [search, setsearch] = useState('')
-
+  const filteredData = data.filter((show) => {
+    return search.toLowerCase() === '' ? true :
+      show.name.toLowerCase().includes(search.toLowerCase()) ||
+      show.email.toLowerCase().includes(search.toLowerCase()) ||
+      show.role.toLowerCase().includes(search.toLowerCase()) ||
+      show.age.toString().toLowerCase().includes(search.toLowerCase());
+  });
 
   ///////////// pagination////////
 
   const [currentpage, setcurrentpage] = useState(1)
-  const [dataperpage, setdataperpage] = useState(10)
+  const [dataperpage, setdataperpage] = useState(5)
 
   const lastindex = currentpage * dataperpage;
   const firstindex = lastindex - dataperpage
-  const datashow = data.slice(firstindex, lastindex)
+  const datashow = filteredData.slice(firstindex, lastindex)
   const selectpagehandler = (index) => {
     setcurrentpage(index + 1)
   }
   return (
     <>
-    <ToastContainer></ToastContainer>
+      <ToastContainer></ToastContainer>
       <TableContainer
         component={Paper}
         sx={{
@@ -96,7 +102,7 @@ export default function TableData({ data, handleDelete, handleEdit }) {
           <Typography variant="h6" fontWeight="bold">
             User Data Table
           </Typography>
-          <TextField type='search' onChange={(e) => setsearch(e.target.value)} placeholder='search' sx={{ background: "white", borderRadius: 2 }} />
+          <TextField type='search' onChange={(e) => { setsearch(e.target.value); setcurrentpage(1) }} placeholder='search' sx={{ background: "white", borderRadius: 2 }} />
           <Box>
 
             <Button variant="contained" color="secondary" onClick={exportdata} sx={{ mr: 2 }}>
@@ -119,51 +125,47 @@ export default function TableData({ data, handleDelete, handleEdit }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            
-            {datashow.filter((show) => {
-              return search.toLowerCase() === '' ? show :
-                show.name.toLowerCase().includes(search) ||
-                show.email.toLowerCase().includes(search) ||
-                show.role.toLowerCase().includes(search) ||
-                show.age.toLowerCase().includes(search) 
+            {datashow.length === 0 ? (<TableRow>
+              <TableCell colSpan={6} align="center">
+                No data available.
+              </TableCell>
+            </TableRow>) : (
 
-            }).map((show, index) => (
-              <TableRow
-                key={index}
-                sx={{
-                  '&:nth-of-type(odd)': { backgroundColor: '#f9f9f9' },
-                  '&:hover': { backgroundColor: '#bbdefb', cursor: 'pointer' },
-                }}
-              >
-                <TableCell align="right">{firstindex +index + 1}</TableCell>
-                <TableCell component="th" scope="row" sx={{ fontWeight: 600 }}>
-                  {show.name}
-                </TableCell>
-                <TableCell align="right">{show.email}</TableCell>
-                <TableCell align="right">{show.age}</TableCell>
-                <TableCell align="right">{show.role}</TableCell>
-                <TableCell align="right">
-                  <Button onClick={() => handleDelete(index)}>Delete</Button>
-                  <Button onClick={() => handleEdit(index)}>Edit</Button>
-                </TableCell>
-              </TableRow>
-            ))}
+              datashow.map((show, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    '&:nth-of-type(odd)': { backgroundColor: '#f9f9f9' },
+                    '&:hover': { backgroundColor: '#bbdefb', cursor: 'pointer' },
+                  }}
+                >
+                  <TableCell align="right">{firstindex + index + 1}</TableCell>
+                  <TableCell component="th" scope="row" sx={{ fontWeight: 600 }}>
+                    {show.name}
+                  </TableCell>
+                  <TableCell align="right">{show.email}</TableCell>
+                  <TableCell align="right">{show.age}</TableCell>
+                  <TableCell align="right">{show.role}</TableCell>
+                  <TableCell align="right">
+                    <Button onClick={() => handleDelete(index)}>Delete</Button>
+                    <Button onClick={() => handleEdit(index)}>Edit</Button>
+                  </TableCell>
+                </TableRow>
+              ))
+
+            )}
+
           </TableBody>
         </Table>
       </TableContainer>
-        <Box  textAlign={'center'} sx={{ mt: 2 }}>
-        {[...Array(Math.ceil(data.length/dataperpage))].map((_,index)=>{
-          return(
-             <Button variant='outlined' color='primary' sx={{margin:'3px' , "&:hover":{backgroundColor:'primary.main',color: 'white'}}} key={index} onClick={()=> selectpagehandler(index)}>{index + 1}</Button>
+      <Box textAlign={'center'} sx={{ mt: 2 }}>
+        {[...Array(Math.ceil(filteredData.length / dataperpage))].map((_, index) => {
+          return (
+            <Button variant='outlined' color='primary' sx={{ margin: '3px', "&:hover": { backgroundColor: 'primary.main', color: 'white' } }} key={index} onClick={() => selectpagehandler(index)}>{index + 1}</Button>
           )
         })}
-        </Box>
-      
-      {(data?.length === 0 || !data) && (
-        <Typography align="center" sx={{ mt: 2 }}>
-          No data available.
-        </Typography>
-      )}
+      </Box>
+
     </>
   );
 }

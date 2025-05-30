@@ -30,9 +30,11 @@ export default function Form() {
   const handleEdit = (index) => {
     const editdata = formarry[index]
     setFormData(editdata)
+    
     const updatedata = formarry.filter((item,idx)=>idx !==index)
     localStorage.setItem('Data', JSON.stringify(updatedata))
     setformarry(updatedata)
+   
   }
   useEffect(()=>{
     const savedata = JSON.parse(localStorage.getItem("Data")) ||[]
@@ -40,6 +42,7 @@ export default function Form() {
   },[])
   return (
     <>
+  
     <Container maxWidth="sm">
       <Paper elevation={4} sx={{ p: 4, mt: 8, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.1)', border: '3px solid' }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }} align="center" gutterBottom>
