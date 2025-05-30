@@ -89,29 +89,54 @@ export default function TableData({ data, handleDelete, handleEdit }) {
         }}
       >
         <Box
-          sx={{
-            backgroundColor: '#1976d2',
-            color: '#fff',
-            p: 2,
-            textAlign: 'center',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
-          <Typography variant="h6" fontWeight="bold">
-            User Data Table
-          </Typography>
-          <TextField type='search' onChange={(e) => { setsearch(e.target.value); setcurrentpage(1) }} placeholder='search' sx={{ background: "white", borderRadius: 2 }} />
-          <Box>
+  sx={{
+    backgroundColor: '#1976d2',
+    color: '#fff',
+    p: 2,
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: { xs: 'column', sm: 'row' },
+    justifyContent: 'space-between',
+    alignItems: { xs: 'stretch', sm: 'center' },
+    gap: 2,
+  }}
+>
+  <Typography variant="h6" fontWeight="bold" sx={{ mb: { xs: 1, sm: 0 } }}>
+    User Data Table
+  </Typography>
+  <TextField
+    type="search"
+    onChange={(e) => {
+      setsearch(e.target.value);
+      setcurrentpage(1);
+    }}
+    placeholder="search"
+    sx={{
+      background: 'white',
+      borderRadius: 2,
+      width: { xs: '100%', sm: 'auto' }
+    }}
+  />
+  <Box
+    sx={{
+      display: 'flex',
+      gap: 1,
+      mt: { xs: 1, sm: 0 },
+      flexWrap: 'wrap',
+      justifyContent: { xs: 'center', sm: 'flex-end' },
+      width: { xs: '100%', sm: 'auto' }
+    }}
+  >
+    <Button variant="contained" color="secondary" onClick={exportdata} sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 ,backgroundColor:"green" } }}>
+      Export Data
+    </Button>
+    <input type="file" accept=".xlsx, .xls, .csv" style={{ display: 'none' }} name="import" onChange={importchange} />
+    <Button variant="contained" color="primary" onClick={importdata} sx={{ mr: { sm: 2 }, mb: { xs: 1, sm: 0 , backgroundColor:"black" } }}>
+      Import Data
+    </Button>
+  </Box>
+</Box>
 
-            <Button variant="contained" color="secondary" onClick={exportdata} sx={{ mr: 2 }}>
-              Export Data
-            </Button>
-            <input type="file" accept='.xlsx, .xls .csv' style={{ display: 'none' }} name='import' onChange={importchange} />
-            <Button variant='contained' color='primary' onClick={importdata}>Import Data</Button>
-          </Box>
-        </Box>
 
         <Table aria-label="user data table" sx={{ minWidth: 700 }}>
           <TableHead>

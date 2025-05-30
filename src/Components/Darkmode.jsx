@@ -23,7 +23,9 @@ const Darkmode = () => {
   
   return (
     <div>
-        <Button variant='contained' color="secondary" sx={{backgroundColor :theme === 'light' ? 'black' :'white', color:theme === 'light' ? 'white' :'black' }} onClick={changetheme}>{theme ==='light' ? 'Enable Dark Mode':"Enable Light Mode " }</Button>
+        <Button variant='contained' color="secondary" sx={{   textAlign: "center",backgroundColor :theme === 'light' ? 'black' :'white', color:theme === 'light' ? 'white' :'black', width: { xs: '100%', sm: 'auto' } }} onClick={changetheme}>{theme ==='light' ? 'Enable Dark Mode':"Enable Light Mode " 
+          
+          }</Button>
     </div>
   )
 }
